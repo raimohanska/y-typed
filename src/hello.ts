@@ -17,21 +17,40 @@ interface Board {
 interface Item {
   id: number;
   title: string;
+  description?: string | undefined
   tasks: Y.Array<string>
 }
 
-// TODO This is not a typesafe way to create a TypedYDoc, as we have to initialize the required attributes manually.
+// TODO Can we make a typesafe document constructor?
 const board = new Y.Doc() as TypedYDoc<Board>;
 board.getMap("attributes").set("title", "My Board");
 
 // Items are structured data, and the createTypedYMap helper requires valid data
 const item: TypedYMap<Item> = createTypedYMap<Item>({ id: 1, title: "My Item", tasks: new Y.Array() });
 
+// Attributes of structurally typed maps are always present, so the result is not nullable
+const title: string = item.get("title")
+
 // Arrays are just Y.Arrays
 board.getArray("items").push([item]);
 
-// All maps can be represented as TypedYMap and are typesafe
-board.getMap("itemsById").set("1", item);
+const itemsById: TypedYMap<Record<string, TypedYMap<Item>>> = board.getMap("itemsById")
+// Maps that have plain `string` as keys accept any string, of course
+itemsById.set("1", item);
 
-// TODO: this should be a nullable value, because items are a string key map
-const foundItem = board.getMap("itemsById").get("1")
+// Maps that have plain `string` as keys return nullable values from `get`
+const foundItem: TypedYMap<Item> | undefined = itemsById.get("1")
+
+// Does not compile, because title is a required field
+// DOESN'T COMPILE: item.delete("title");
+
+// Optional field can be deleted
+item.delete("description");
+
+// Maps that have non-optional keys cannot be cleared.
+// DOESN'T COMPILE: item.clear()
+
+// Maps that have plain `string` as keys (or maps with only optional keys) can be cleared.
+itemsById.clear()
+
+itemsById.forEach((key: string, value: TypedYMap<Item>, itemsMap) => {})
