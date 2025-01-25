@@ -1,0 +1,22 @@
+{
+  "name": "y-typed",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --declaration --sourceMap",
+    "watch": "tsc --watch",
+    "format": "prettier --write ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.8",
+    "prettier": "3.4.2",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "yjs": "^13.6.23"
+  }
+}
