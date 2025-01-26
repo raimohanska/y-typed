@@ -59,8 +59,8 @@ const title: string = item.get("title")
 
 const itemsById: TypedYMap<Record<string, TypedYMap<Item>>> = board.getMap("itemsById")
 
-// Maps that have plain `string` as keys accept any string, of course
 const item2: TypedYMap<Item> = createTypedYMap<Item>({ id: 2, title: "My Item 2", tasks: new Y.Array() });
+// Maps that have plain `string` as keys accept any string, of course
 itemsById.set("1", item2);
 
 // Maps that have plain `string` as keys return nullable values from `get`

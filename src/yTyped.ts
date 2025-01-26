@@ -63,6 +63,9 @@ type Optional<T> = {
   [K in keyof T]?: T[K];
 }
 
+/**
+ *  The below types for initializing a document type-safely are a bit complex, admittedly.
+ */
 export type RequiredDocInitFields<D> = FilterNever<{
   [K in keyof D 
     as D[K] extends TypedYMap<ClearableMap<infer M>> ? never : D[K] extends TypedYMap<any> ? K : never
@@ -78,12 +81,6 @@ export type YArrayDocInitFields<D> = Optional<FilterNever<{
 }>>
 
 export type DocInit<D> = RequiredDocInitFields<D> & OptionalDocInitFields<D> & YArrayDocInitFields<D>
-
-interface Doc {
-  required: TypedYMap<{ title: string }>;
-  optional: TypedYMap<{ description?: string }>;
-  items: Y.Array<string>
-}
 
 export function createTypedYDoc<D>(data: DocInit<D>): TypedYDoc<D> {
   const doc = new Y.Doc();
