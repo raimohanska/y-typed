@@ -25,7 +25,18 @@ interface Item {
 const board = new Y.Doc() as TypedYDoc<Board>;
 board.getMap("attributes").set("title", "My Board");
 
-// Items are structured data, and the createTypedYMap helper requires valid data
+/** 
+ *  Here we use the `createTypedYMap` helper function to create a typed map type-safely.
+ * 
+ *  For a typesafe Y.Map constructor, we would need to change the current constructor to also allow a record of initial content.
+ *  The constructor would have 3 overloads:
+ * 
+ *  1. `new Y.Map()`
+ *  2. `new Y.Map(initialContent: M)` 
+ *  3. `new Y.Map(entries: IterableIterator<Entry<M>>)`
+ * 
+ * Out of these, variants 1 and 3 would only be available if the map has no required fields.
+*/
 const item: TypedYMap<Item> = createTypedYMap<Item>({ id: 1, title: "My Item", tasks: new Y.Array() });
 
 // Attributes of structurally typed maps are always present, so the result is not nullable
