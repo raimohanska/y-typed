@@ -6,14 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --declaration --sourceMap",
-    "watch": "tsc --watch",
+    "watch": "tsc-watch --onSuccess \"node --enable-source-maps dist/hello.js\" --preserveWatchOutput",
     "format": "prettier --write ."
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.8",
+    "@types/node": "^22.10.10",
     "prettier": "3.4.2",
+    "tsc-watch": "^6.2.1",
     "typescript": "^5.7.3"
   },
   "dependencies": {
